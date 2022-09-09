@@ -6,6 +6,7 @@ use App\Repository\UserAuthenticationRepository;
 use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\LoginController;
 use App\Controller\MeController;
 use Doctrine\ORM\Mapping as ORM;
 use Lcobucci\JWT\Signer\None;
@@ -20,6 +21,7 @@ use Symfony\Component\Validator\Constraints\IsNull;
     collectionOperations: [
         'get' => ['method' => 'get'],
         'post' => ['method' => 'post'],
+        'dashboard'=> ['method'=> 'get', 'controller'=>LoginController::class, 'path'=> '/dashboard']
     ],
     itemOperations: [
         'get' => ['method' => 'get', 'requirements' => ['id' => '\d+'],],
@@ -56,7 +58,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $Picture;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $UserName;
 
     public function getId(): ?int
@@ -162,4 +164,5 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
 
         return $this;
     }
+    
 }

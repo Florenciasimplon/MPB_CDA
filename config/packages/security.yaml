@@ -35,4 +35,5 @@ security:
     access_control:
         - { path: ^/api, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
+        - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
        
