@@ -28,6 +28,7 @@ use Symfony\Component\Validator\Constraints\IsNull;
         'put' => ['method' => 'put'],
         'delete' => ['method' => 'delete']
     ],
+   
 )]
 class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -54,12 +55,14 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         ],
     )]
     private $plainPassword;
-    
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $Picture;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $UserName;
+    #[ORM\Column(length: 255)]
+    private ?string $userName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
+    
+   
 
     public function getId(): ?int
     {
@@ -141,28 +144,30 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-    public function getPicture(): ?string
-    {
-        return $this->Picture;
-    }
-
-    public function setPicture(?string $Picture): self
-    {
-        $this->Picture = $Picture;
-
-        return $this;
-    }
 
     public function getUserName(): ?string
     {
-        return $this->UserName;
+        return $this->userName;
     }
 
-    public function setUserName(string $UserName): self
+    public function setUserName(string $userName): self
     {
-        $this->UserName = $UserName;
+        $this->userName = $userName;
 
         return $this;
     }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
     
 }
