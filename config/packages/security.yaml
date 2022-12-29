@@ -1,0 +1,44 @@
+# api/config/packages/security.yaml
+security:
+    # https://symfony.com/doc/current/security.html#c-hashing-passwords
+    password_hashers:
+        App\Entity\UserAuthentication:
+            algorithm: auto
+
+
+    # https://symfony.com/doc/current/security/authenticator_manager.html
+    enable_authenticator_manager: true
+    # https://symfony.com/doc/current/security.html#where-do-user-come-from-user-providers
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\UserAuthentication
+                property: email
+        # used to reload user from session & other features (e.g. switch_user)
+
+    firewalls:
+        dev:
+            pattern: ^/(profiler|wdt)
+            security: false
+        main:
+            stateless: true
+            provider: app_user_provider
+            json_login:
+                check_path: /authentication_token
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            jwt: ~    
+
+    access_control:
+        - { path: ^/api, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
+        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
+        - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/categoryArticle, roles: PUBLIC_ACCESS }
+        - { path: ^/Article, roles: PUBLIC_ACCESS }
+        - { path: ^/articlesCategory, roles: PUBLIC_ACCESS }
+        - { path: ^/BookNote, roles: PUBLIC_ACCESS }
+        - { path: ^/Book, roles: IS_AUTHENTICATED_FULLY }
+       
