@@ -70,12 +70,16 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Book::class)]
     private Collection $book;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Belly::class)]
+    private Collection $belly;
+
     
 
     public function __construct()
     {
-        $this->books = new ArrayCollection();
+        // $this->books = new ArrayCollection();
         $this->book = new ArrayCollection();
+        $this->belly = new ArrayCollection();
     }
     
    
@@ -209,6 +213,36 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
             // set the owning side to null (unless already changed)
             if ($book->getUser() === $this) {
                 $book->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Belly>
+     */
+    public function getBelly(): Collection
+    {
+        return $this->belly;
+    }
+
+    public function addBelly(Belly $belly): self
+    {
+        if (!$this->belly->contains($belly)) {
+            $this->belly->add($belly);
+            $belly->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBelly(Belly $belly): self
+    {
+        if ($this->belly->removeElement($belly)) {
+            // set the owning side to null (unless already changed)
+            if ($belly->getUser() === $this) {
+                $belly->setUser(null);
             }
         }
 

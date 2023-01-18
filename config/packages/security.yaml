@@ -41,4 +41,5 @@ security:
         - { path: ^/articlesCategory, roles: PUBLIC_ACCESS }
         - { path: ^/BookNote, roles: PUBLIC_ACCESS }
         - { path: ^/Book, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/userBelly, roles: IS_AUTHENTICATED_FULLY }
        
